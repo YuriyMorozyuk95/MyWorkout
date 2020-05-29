@@ -10,14 +10,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["MyWorkout.csproj", ""]
-RUN dotnet restore "./MyWorkout.csproj"
+COPY ["MyWorkout.Web.csproj", ""]
+RUN dotnet restore "./MyWorkout.Web.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "MyWorkout.csproj" -c Release -o /app/build
+RUN dotnet build "MyWorkout.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MyWorkout.csproj" -c Release -o /app/publish
+RUN dotnet publish "MyWorkout.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
