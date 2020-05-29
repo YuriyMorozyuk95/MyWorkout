@@ -1,0 +1,9 @@
+C:\Users\Yurii\source\repos\MyWorkout.BLL\bin\Debug\netcoreapp3.1\MyWorkout.BLL.deps.json
+C:\Users\Yurii\source\repos\MyWorkout.BLL\bin\Debug\netcoreapp3.1\MyWorkout.BLL.dll
+C:\Users\Yurii\source\repos\MyWorkout.BLL\bin\Debug\netcoreapp3.1\MyWorkout.BLL.pdb
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.csprojAssemblyReference.cache
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.AssemblyInfoInputs.cache
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.AssemblyInfo.cs
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.csproj.CoreCompileInputs.cache
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.dll
+C:\Users\Yurii\source\repos\MyWorkout.BLL\obj\Debug\netcoreapp3.1\MyWorkout.BLL.pdb

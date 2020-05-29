@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "2iVhPZdgiopm0SeJ/wPyX/M7wttyLILqgR8mOdH8Dqwg4sIG7kpH+yhV6WcKEOeI9KRUYYfKtLSBFZ+tKsXk+A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Yurii\\source\\repos\\MyWorkout\\MyWorkout.BLL\\MyWorkout.BLL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Yurii\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

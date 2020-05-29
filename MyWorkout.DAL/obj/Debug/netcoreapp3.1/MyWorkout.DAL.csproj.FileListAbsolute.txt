@@ -1,0 +1,9 @@
+C:\Users\Yurii\source\repos\MyWorkout.DAL\bin\Debug\netcoreapp3.1\MyWorkout.DAL.deps.json
+C:\Users\Yurii\source\repos\MyWorkout.DAL\bin\Debug\netcoreapp3.1\MyWorkout.DAL.dll
+C:\Users\Yurii\source\repos\MyWorkout.DAL\bin\Debug\netcoreapp3.1\MyWorkout.DAL.pdb
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.csprojAssemblyReference.cache
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.AssemblyInfoInputs.cache
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.AssemblyInfo.cs
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.dll
+C:\Users\Yurii\source\repos\MyWorkout.DAL\obj\Debug\netcoreapp3.1\MyWorkout.DAL.pdb

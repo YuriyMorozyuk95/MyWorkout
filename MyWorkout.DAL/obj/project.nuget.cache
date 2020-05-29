@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "bgxzUX+GgJSvzP8Y792UEvYfEbKhnIL3WMqUEeEkdVT2gP98XfTa/r9QEuqawTxTS9kK9tmKPEg7Q8AV0MCkfg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Yurii\\source\\repos\\MyWorkout\\MyWorkout.DAL\\MyWorkout.DAL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Yurii\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
