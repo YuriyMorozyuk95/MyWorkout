@@ -15,13 +15,36 @@ using Microsoft.Extensions.Hosting;
 
 namespace MyWorkout.Web
 {
+    using Config;
     using Data;
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration,
+            IHostEnvironment env)
         {
-            Configuration = configuration;
+            var buildConfigName = GetBuildConfig();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{buildConfigName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+        }
+
+        private string GetBuildConfig()
+        {
+            string buildConfigName = "TEST";
+#if YURII
+            buildConfigName = "Yurii";
+#endif
+#if ALIYAH
+            buildConfigName = "Aliyah";
+#endif
+            return buildConfigName;
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +52,9 @@ namespace MyWorkout.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
