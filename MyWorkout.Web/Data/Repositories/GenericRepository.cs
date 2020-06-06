@@ -5,7 +5,7 @@ namespace MyWorkout.Web.Data.Repositories
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
 
-    public interface IRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         DbSet<T> EntitySet { get; }
         IAsyncEnumerable<T> ReadAll();
@@ -15,11 +15,11 @@ namespace MyWorkout.Web.Data.Repositories
         Task Delete(int id);
     }
 
-    public class Repository<T> : IRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly DbSet<T> _dbSet;
 
-        public Repository(DbSet<T> dbSet)
+        public GenericRepository(DbSet<T> dbSet)
         {
             _dbSet = dbSet;
         }
