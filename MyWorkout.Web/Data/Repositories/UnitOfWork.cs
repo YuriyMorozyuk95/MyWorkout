@@ -9,7 +9,7 @@ namespace MyWorkout.Web.Data.Repositories
 
     public interface IUnitOfWork : IAsyncDisposable
     {
-        IGenericRepository<Exercise> ExerciseGenericRepository { get; }
+        IGenericRepository<Exercise> ExerciseRepository { get; }
         Task<int> Save();
         void Rollback();
     }
@@ -28,7 +28,7 @@ namespace MyWorkout.Web.Data.Repositories
                 () => new GenericRepository<Exercise>(_context.Exercises));
         }
 
-        public IGenericRepository<Exercise> ExerciseGenericRepository => _exerciseRepository.Value;
+        public IGenericRepository<Exercise> ExerciseRepository => _exerciseRepository.Value;
 
         public async Task<int> Save() => await _context.SaveChangesAsync();
 

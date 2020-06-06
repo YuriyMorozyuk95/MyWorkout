@@ -30,7 +30,7 @@ namespace MyWorkout.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var a = await _unitOfWork.ExerciseGenericRepository.ReadAll().ToListAsync();
+            var a = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
 
             ViewBag.EnviromentName = _appSettings.EnviromentName;
             return View();
