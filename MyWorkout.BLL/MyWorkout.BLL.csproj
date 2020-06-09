@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Configurations>Debug;Release;Yurii;Aliyah</Configurations>
+    <Configurations>Debug;Release;Yurii;Aaliyah</Configurations>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
