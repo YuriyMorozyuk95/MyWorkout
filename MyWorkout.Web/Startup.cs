@@ -42,8 +42,8 @@ namespace MyWorkout.Web
 #if YURII
             buildConfigName = "Yurii";
 #endif
-#if ALIYAH
-            buildConfigName = "Aliyah";
+#if AALIYAH
+           buildConfigName = "Aaliyah";
 #endif
             return buildConfigName;
         }
