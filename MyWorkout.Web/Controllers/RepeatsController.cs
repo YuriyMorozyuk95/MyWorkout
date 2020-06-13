@@ -10,20 +10,26 @@ using MyWorkout.Web.Data.Entity;
 
 namespace MyWorkout.Web.Controllers
 {
+    using Data.Repositories;
+
     public class RepeatsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public RepeatsController(ApplicationDbContext context)
+        public RepeatsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Repeats
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Repeats.Include(r => r.Exercise);
-            return View(await applicationDbContext.ToListAsync());
+            var repeats = await _unitOfWork.RepeatRepository
+                .EntitySet
+                .Include(r => r.Exercise)
+                .ToListAsync();
+
+            return View(repeats);
         }
 
         // GET: Repeats/Details/5
@@ -34,9 +40,11 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var repeat = await _context.Repeats
+            var repeat = await _unitOfWork.RepeatRepository
+                .EntitySet
                 .Include(r => r.Exercise)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (repeat == null)
             {
                 return NotFound();
@@ -46,9 +54,11 @@ namespace MyWorkout.Web.Controllers
         }
 
         // GET: Repeats/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Id");
+            var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
+            ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id");
+
             return View();
         }
 
@@ -61,11 +71,13 @@ namespace MyWorkout.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(repeat);
-                await _context.SaveChangesAsync();
+                await _unitOfWork.RepeatRepository.Create(repeat);
+                await _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Id", repeat.ExerciseId);
+            var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
+
+            ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
             return View(repeat);
         }
 
@@ -77,12 +89,13 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var repeat = await _context.Repeats.FindAsync(id);
+            var repeat = await _unitOfWork.RepeatRepository.Read(id.Value);
             if (repeat == null)
             {
                 return NotFound();
             }
-            ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Id", repeat.ExerciseId);
+            var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
+            ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
             return View(repeat);
         }
 
@@ -102,8 +115,8 @@ namespace MyWorkout.Web.Controllers
             {
                 try
                 {
-                    _context.Update(repeat);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.RepeatRepository.Update(repeat);
+                    await _unitOfWork.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +131,9 @@ namespace MyWorkout.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExerciseId"] = new SelectList(_context.Exercises, "Id", "Id", repeat.ExerciseId);
+            var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
+
+            ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
             return View(repeat);
         }
 
@@ -130,7 +145,8 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var repeat = await _context.Repeats
+            var repeat = await _unitOfWork.RepeatRepository
+                .EntitySet
                 .Include(r => r.Exercise)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (repeat == null)
@@ -146,15 +162,14 @@ namespace MyWorkout.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var repeat = await _context.Repeats.FindAsync(id);
-            _context.Repeats.Remove(repeat);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.RepeatRepository.Delete(id);
+            await _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RepeatExists(int id)
         {
-            return _context.Repeats.Any(e => e.Id == id);
+            return _unitOfWork.RepeatRepository.EntitySet.Any(e => e.Id == id);
         }
     }
 }
