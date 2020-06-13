@@ -10,6 +10,7 @@ namespace MyWorkout.Web.Data.Repositories
     public interface IUnitOfWork : IAsyncDisposable
     {
         IGenericRepository<Exercise> ExerciseRepository { get; }
+        IGenericRepository<Repeat> RepeatRepository { get; }
         Task<int> Save();
         void Rollback();
     }
@@ -18,6 +19,7 @@ namespace MyWorkout.Web.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly Lazy<IGenericRepository<Exercise>> _exerciseRepository;
+        private readonly Lazy<IGenericRepository<Repeat>> _repeatRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -26,9 +28,13 @@ namespace MyWorkout.Web.Data.Repositories
             //init Repositories
             _exerciseRepository = new Lazy<IGenericRepository<Exercise>>(
                 () => new GenericRepository<Exercise>(_context.Exercises));
+
+            _repeatRepository = new Lazy<IGenericRepository<Repeat>>(
+                () => new GenericRepository<Repeat>(_context.Repeats));
         }
 
         public IGenericRepository<Exercise> ExerciseRepository => _exerciseRepository.Value;
+        public IGenericRepository<Repeat> RepeatRepository => _repeatRepository.Value;
 
         public async Task<int> Save() => await _context.SaveChangesAsync();
 
