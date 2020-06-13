@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWorkout.Web.Data;
 
 namespace MyWorkout.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200613113048_AddRepeatsTable")]
+    partial class AddRepeatsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,6 +231,9 @@ namespace MyWorkout.Web.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Repeats")
+                        .HasColumnType("int");
+
                     b.Property<TimeSpan>("RestTime")
                         .HasColumnType("time");
 
@@ -247,15 +252,10 @@ namespace MyWorkout.Web.Data.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
 
                     b.ToTable("Repeats");
                 });
@@ -307,15 +307,6 @@ namespace MyWorkout.Web.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MyWorkout.Web.Data.Entity.Repeat", b =>
-                {
-                    b.HasOne("MyWorkout.Web.Data.Entity.Exercise", "Exercise")
-                        .WithMany("Repeats")
-                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
