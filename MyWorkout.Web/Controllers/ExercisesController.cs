@@ -59,7 +59,7 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Repeats,RestTime")] Exercise exercise)
+        public async Task<IActionResult> Create([Bind("Id,Name,RestTime")] Exercise exercise)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Repeats,RestTime")] Exercise exercise)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,RestTime")] Exercise exercise)
         {
             if (id != exercise.Id)
             {
