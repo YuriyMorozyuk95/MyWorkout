@@ -14,5 +14,8 @@ namespace MyWorkout.Web.Data
 
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Repeat> Repeats { get; set; }
+        public DbSet<WorkoutDay> WorkoutDays { get; set; }
+
     }
+      
 }
