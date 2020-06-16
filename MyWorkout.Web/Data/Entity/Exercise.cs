@@ -12,5 +12,11 @@ namespace MyWorkout.Web.Data.Entity
         public TimeSpan RestTime { get; set; }
 
         public List<Repeat> Repeats { get; set; }
+
+        public WorkoutDay WorkoutDay { get; set; }
+        public int WorkoutDayId { get; set; }
+        
+
+
     }
 }
