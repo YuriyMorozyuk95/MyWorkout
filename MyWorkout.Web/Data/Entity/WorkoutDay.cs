@@ -12,6 +12,10 @@ namespace MyWorkout.Web.Data.Entity
        public DayOfWeek DayOfWeek { get; set; }
        public MuscleGroup MuscleGroup { get; set; }
        public List <Exercise> Exercises { get; set; }
+       public Plan Plan { get; set; }
+       public int PlanId { get; set; }
+       
+
        
 
     }
