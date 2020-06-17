@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyWorkout.Web.Data.Repositories
 {
+    using System.Linq.Expressions;
     using Entity;
 
     public interface IUnitOfWork : IAsyncDisposable
@@ -13,6 +14,13 @@ namespace MyWorkout.Web.Data.Repositories
         IGenericRepository<Repeat> RepeatRepository { get; }
         Task<int> Save();
         void Rollback();
+
+        void Load<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> expression)
+            where TProperty : class
+            where TEntity : class;
+        void Load<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression)
+            where TProperty : class
+            where TEntity : class;
     }
 
     public class UnitOfWork : IUnitOfWork
@@ -43,6 +51,24 @@ namespace MyWorkout.Web.Data.Repositories
             _context.ChangeTracker.Entries()
                 .ToList()
                 .ForEach(x => x.Reload());
+        }
+
+        public void Load<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> expression)
+            where TProperty : class  
+            where TEntity : class
+        {
+            _context.Entry(entity)
+                .Collection(expression)
+                .Load();
+        }
+
+        public void Load<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) 
+            where TProperty : class
+            where TEntity : class
+        {
+            _context.Entry(entity)
+                .Reference(expression)
+                .Load();
         }
 
         public ValueTask DisposeAsync() => _context.DisposeAsync();
