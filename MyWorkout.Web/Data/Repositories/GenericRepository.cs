@@ -2,17 +2,20 @@
 
 namespace MyWorkout.Web.Data.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
 
     public interface IGenericRepository<T> where T : class
     {
-        DbSet<T> EntitySet { get; }
         IAsyncEnumerable<T> ReadAll();
         Task<T> Read(int id);
         Task Create(T item);
         void Update(T item);
         Task Delete(int id);
+        Task<bool> IsExist(Expression<Func<T, bool>> predicate);
     }
 
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -23,8 +26,6 @@ namespace MyWorkout.Web.Data.Repositories
         {
             _dbSet = dbSet;
         }
-        //TODO remove after DAL will be done
-        public DbSet<T> EntitySet => _dbSet;
 
         public IAsyncEnumerable<T> ReadAll()
         {
@@ -50,6 +51,10 @@ namespace MyWorkout.Web.Data.Repositories
             {
                _dbSet.Remove(game);
             }
+        }
+        public Task<bool> IsExist(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.AnyAsync(predicate);
         }
     }
 }
