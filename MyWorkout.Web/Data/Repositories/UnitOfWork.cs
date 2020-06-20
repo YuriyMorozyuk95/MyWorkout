@@ -12,6 +12,7 @@ namespace MyWorkout.Web.Data.Repositories
     {
         IGenericRepository<Exercise> ExerciseRepository { get; }
         IGenericRepository<Repeat> RepeatRepository { get; }
+        IGenericRepository<WorkoutDay> WorkoutDayRepository { get; }
         Task<int> Save();
         void Rollback();
 
@@ -28,6 +29,7 @@ namespace MyWorkout.Web.Data.Repositories
         private readonly ApplicationDbContext _context;
         private readonly Lazy<IGenericRepository<Exercise>> _exerciseRepository;
         private readonly Lazy<IGenericRepository<Repeat>> _repeatRepository;
+        private readonly Lazy<IGenericRepository<WorkoutDay>> _workoutDayRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -39,10 +41,14 @@ namespace MyWorkout.Web.Data.Repositories
 
             _repeatRepository = new Lazy<IGenericRepository<Repeat>>(
                 () => new GenericRepository<Repeat>(_context.Repeats));
+
+            _workoutDayRepository = new Lazy<IGenericRepository<WorkoutDay>>(
+                () => new GenericRepository<WorkoutDay>(_context.WorkoutDays));
         }
 
         public IGenericRepository<Exercise> ExerciseRepository => _exerciseRepository.Value;
         public IGenericRepository<Repeat> RepeatRepository => _repeatRepository.Value;
+        public IGenericRepository<WorkoutDay> WorkoutDayRepository => _workoutDayRepository.Value;
 
         public async Task<int> Save() => await _context.SaveChangesAsync();
 
@@ -62,6 +68,7 @@ namespace MyWorkout.Web.Data.Repositories
                 .Load();
         }
 
+        //TODO Crete one method for load all dependecies
         public void Load<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) 
             where TProperty : class
             where TEntity : class

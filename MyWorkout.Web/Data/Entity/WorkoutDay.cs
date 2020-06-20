@@ -14,9 +14,5 @@ namespace MyWorkout.Web.Data.Entity
        public List <Exercise> Exercises { get; set; }
        public Plan Plan { get; set; }
        public int PlanId { get; set; }
-       
-
-       
-
     }
 }

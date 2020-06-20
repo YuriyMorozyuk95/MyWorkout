@@ -7,19 +7,25 @@ using EF = Microsoft.EntityFrameworkCore;
 
 namespace MyWorkout.Web.Controllers
 {
+    using Data.Repositories;
+
     public class WorkoutDaysController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public WorkoutDaysController(ApplicationDbContext context)
+        public WorkoutDaysController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: WorkoutDays
         public async Task<IActionResult> Index()
         {
-            return View(await _context.WorkoutDays.ToListAsync());
+            var workoutDays = await _unitOfWork.WorkoutDayRepository
+                .ReadAll()
+                .ToListAsync();
+
+            return View(workoutDays);
         }
 
         // GET: WorkoutDays/Details/5
@@ -30,8 +36,9 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var workoutDay = await _context.WorkoutDays
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workoutDay = await _unitOfWork.WorkoutDayRepository
+                .Read(id.Value);
+
             if (workoutDay == null)
             {
                 return NotFound();
@@ -55,8 +62,9 @@ namespace MyWorkout.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(workoutDay);
-                await _context.SaveChangesAsync();
+                await _unitOfWork.WorkoutDayRepository.Create(workoutDay);
+                await _unitOfWork.Save();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(workoutDay);
@@ -70,7 +78,9 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var workoutDay = await _context.WorkoutDays.FindAsync(id);
+            var workoutDay = await _unitOfWork.WorkoutDayRepository
+                .Read(id.Value);
+
             if (workoutDay == null)
             {
                 return NotFound();
@@ -94,19 +104,17 @@ namespace MyWorkout.Web.Controllers
             {
                 try
                 {
-                    _context.Update(workoutDay);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.WorkoutDayRepository.Update(workoutDay);
+                    await _unitOfWork.Save();
                 }
                 catch (EF.DbUpdateConcurrencyException)
                 {
-                    if (!WorkoutDayExists(workoutDay.Id))
+                    if (!await WorkoutDayExists(workoutDay.Id))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -121,8 +129,9 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var workoutDay = await _context.WorkoutDays
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workoutDay = await _unitOfWork.WorkoutDayRepository
+                .Read(id.Value);
+
             if (workoutDay == null)
             {
                 return NotFound();
@@ -136,15 +145,15 @@ namespace MyWorkout.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var workoutDay = await _context.WorkoutDays.FindAsync(id);
-            _context.WorkoutDays.Remove(workoutDay);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.WorkoutDayRepository.Delete(id);
+            await _unitOfWork.Save();
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WorkoutDayExists(int id)
+        private Task<bool> WorkoutDayExists(int id)
         {
-            return _context.WorkoutDays.Any(e => e.Id == id);
+            return _unitOfWork.WorkoutDayRepository.IsExist(e => e.Id == id);
         }
     }
 }
