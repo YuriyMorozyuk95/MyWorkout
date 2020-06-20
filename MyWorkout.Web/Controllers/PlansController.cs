@@ -7,20 +7,31 @@ using EF = Microsoft.EntityFrameworkCore;
 
 namespace MyWorkout.Web.Controllers
 {
+    using Data.Repositories;
     public class PlansController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PlansController(ApplicationDbContext context)
+        //private readonly ApplicationDbContext _context;
+
+        // public PlansController(ApplicationDbContext context)
+        //{
+        // _context = context;
+        //}
+        public PlansController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Plans
         public async Task<IActionResult> Index()
         {
-            var a = await _context.Plans.ToListAsync();
-            return View(await _context.Plans.ToListAsync());
+            var plan = await _unitOfWork.PlanRepository
+                .ReadAll()
+                .ToListAsync();
+            return View(plan);
+            //var a = await _context.Plans.ToListAsync();
+            //return View(await _context.Plans.ToListAsync());
         }
 
         // GET: Plans/Details/5
@@ -31,15 +42,25 @@ namespace MyWorkout.Web.Controllers
                 return NotFound();
             }
 
-            var plan = await _context.Plans
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (plan == null)
+            var plans = await _unitOfWork.PlanRepository
+                .Read(id.Value);
+
+            if (plans == null)
             {
                 return NotFound();
             }
 
-            return View(plan);
+            return View(plans);
         }
+        // var plan = await _context.Plans
+        // .FirstOrDefaultAsync(m => m.Id == id);
+        //if (plan == null)
+        //{
+        // return NotFound();
+        // }
+
+        // return View(plan);
+        //  }
 
         // GET: Plans/Create
         public IActionResult Create()
@@ -56,9 +77,11 @@ namespace MyWorkout.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(plan);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _unitOfWork.PlanRepository.Create(plan);
+                await _unitOfWork.Save();
+                //_context.Add(plan);
+                // await _context.SaveChangesAsync();
+               return RedirectToAction(nameof(Index));
             }
             return View(plan);
         }
@@ -70,10 +93,13 @@ namespace MyWorkout.Web.Controllers
             {
                 return NotFound();
             }
+            var plan = await _unitOfWork.PlanRepository
+                .Read(id.Value);
 
-            var plan = await _context.Plans.FindAsync(id);
             if (plan == null)
-            {
+            { 
+                // var plan = await _context.Plans.FindAsync(id);
+                //if (plan == null)
                 return NotFound();
             }
             return View(plan);
@@ -95,12 +121,14 @@ namespace MyWorkout.Web.Controllers
             {
                 try
                 {
-                    _context.Update(plan);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.PlanRepository.Update(plan);
+                    await _unitOfWork.Save();
+                    //_context.Update(plan);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (EF.DbUpdateConcurrencyException)
                 {
-                    if (!PlanExists(plan.Id))
+                    if (! await PlanExists(plan.Id))
                     {
                         return NotFound();
                     }
@@ -121,9 +149,11 @@ namespace MyWorkout.Web.Controllers
             {
                 return NotFound();
             }
+            var plan = await _unitOfWork.PlanRepository
+                .Read(id.Value);
 
-            var plan = await _context.Plans
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var plan = await _context.Plans
+            // .FirstOrDefaultAsync(m => m.Id == id);
             if (plan == null)
             {
                 return NotFound();
@@ -137,15 +167,18 @@ namespace MyWorkout.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var plan = await _context.Plans.FindAsync(id);
-            _context.Plans.Remove(plan);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.PlanRepository.Delete(id);
+            await _unitOfWork.Save();
+            //var plan = await _context.Plans.FindAsync(id);
+            //_context.Plans.Remove(plan);
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PlanExists(int id)
+        private  Task<bool> PlanExists(int id)
         {
-            return _context.Plans.Any(e => e.Id == id);
+            return _unitOfWork.PlanRepository.IsExist(e => e.Id == id);
+            //return _context.Plans.Any(e => e.Id == id);
         }
     }
 }
