@@ -109,6 +109,11 @@ namespace MyWorkout.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "exerciseToRepeat",
+                    pattern: "{controller=Home}/{action=Index}/{exerciseId?}/{number?}");
+
                 endpoints.MapRazorPages();
             });
         }

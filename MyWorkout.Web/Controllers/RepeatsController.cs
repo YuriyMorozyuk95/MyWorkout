@@ -53,9 +53,28 @@ namespace MyWorkout.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
-            ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id");
+            ViewBag.ExerciseItems = new SelectList(exercises, "Id", "Id");
 
-            return View();
+            var repeat = new Repeat();
+
+            return View(repeat);
+        }
+
+        // GET: Repeats/CreateFromExercise/328
+        public IActionResult CreateFromExercise(int? exerciseId, int number)
+        {
+            if(exerciseId == default(int))
+            {  
+                throw new ArgumentNullException("excersise id is not set");
+            }
+
+            var repeat = new Repeat()
+            {
+                Number = number,
+                ExerciseId = exerciseId.Value
+            };
+
+            return View(nameof(Create), repeat);
         }
 
         // POST: Repeats/Create
