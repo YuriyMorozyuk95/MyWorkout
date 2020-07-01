@@ -11,19 +11,56 @@
     <h4>Exercise</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RestTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RestTime)
         </dd>
     </dl>
+
+    <p>
+        <a asp-controller="Repeats" asp-action="CreateFromExercise" asp-route-number="@Model.Repeats.Count" asp-route-exerciseId="@Model.Id">Create New Repeats</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Repeats[0].Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Repeats[0].Count)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Repeats)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                    <td>
+                        <a asp-controller="Repeats" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Repeats" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Repeats" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

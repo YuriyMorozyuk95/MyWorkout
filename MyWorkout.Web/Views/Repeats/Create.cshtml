@@ -23,10 +23,18 @@
                 <input asp-for="Count" class="form-control" />
                 <span asp-validation-for="Count" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ExerciseId" class="control-label"></label>
-                <select asp-for="ExerciseId" class ="form-control" asp-items="ViewBag.ExerciseId"></select>
-            </div>
+            @if (@Model.ExerciseId == default(int))
+            {
+                <div class="form-group">
+                    <label asp-for="ExerciseId" class="control-label"></label>
+                    <select asp-for="ExerciseId" class="form-control" asp-items="ViewBag.ExerciseItems"></select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="ExerciseId" value="@Model.ExerciseId"/>
+            }
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -35,7 +43,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @*<a asp-action="Index">Back to List</a>*@
+    <input type="button" onclick="history.go(-1)" value="Back" />
 </div>
 
 @section Scripts {

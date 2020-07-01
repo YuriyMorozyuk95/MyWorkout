@@ -12,12 +12,6 @@ namespace MyWorkout.Web.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        //private readonly ApplicationDbContext _context;
-
-        // public PlansController(ApplicationDbContext context)
-        //{
-        // _context = context;
-        //}
         public PlansController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -30,8 +24,6 @@ namespace MyWorkout.Web.Controllers
                 .ReadAll()
                 .ToListAsync();
             return View(plan);
-            //var a = await _context.Plans.ToListAsync();
-            //return View(await _context.Plans.ToListAsync());
         }
 
         // GET: Plans/Details/5
@@ -52,16 +44,7 @@ namespace MyWorkout.Web.Controllers
 
             return View(plans);
         }
-        // var plan = await _context.Plans
-        // .FirstOrDefaultAsync(m => m.Id == id);
-        //if (plan == null)
-        //{
-        // return NotFound();
-        // }
-
-        // return View(plan);
-        //  }
-
+        
         // GET: Plans/Create
         public IActionResult Create()
         {
@@ -79,8 +62,6 @@ namespace MyWorkout.Web.Controllers
             {
                 await _unitOfWork.PlanRepository.Create(plan);
                 await _unitOfWork.Save();
-                //_context.Add(plan);
-                // await _context.SaveChangesAsync();
                return RedirectToAction(nameof(Index));
             }
             return View(plan);
@@ -98,8 +79,6 @@ namespace MyWorkout.Web.Controllers
 
             if (plan == null)
             { 
-                // var plan = await _context.Plans.FindAsync(id);
-                //if (plan == null)
                 return NotFound();
             }
             return View(plan);
@@ -123,8 +102,6 @@ namespace MyWorkout.Web.Controllers
                 {
                     _unitOfWork.PlanRepository.Update(plan);
                     await _unitOfWork.Save();
-                    //_context.Update(plan);
-                    //await _context.SaveChangesAsync();
                 }
                 catch (EF.DbUpdateConcurrencyException)
                 {
@@ -152,8 +129,6 @@ namespace MyWorkout.Web.Controllers
             var plan = await _unitOfWork.PlanRepository
                 .Read(id.Value);
 
-            //var plan = await _context.Plans
-            // .FirstOrDefaultAsync(m => m.Id == id);
             if (plan == null)
             {
                 return NotFound();
@@ -169,9 +144,6 @@ namespace MyWorkout.Web.Controllers
         {
             await _unitOfWork.PlanRepository.Delete(id);
             await _unitOfWork.Save();
-            //var plan = await _context.Plans.FindAsync(id);
-            //_context.Plans.Remove(plan);
-            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
