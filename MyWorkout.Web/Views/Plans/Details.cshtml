@@ -11,14 +11,49 @@
     <h4>Plan</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
-</div>
+    <p>
+        <a asp-controller="WorkoutDays" asp-action="CreateFromPlan" asp-route-Id="@Model.Id">Create New WorkoutDay</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkoutDays[0].DayOfWeek)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkoutDays[0].MuscleGroup)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WorkoutDays)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MuscleGroup)
+                </td>
+                <td>
+                    <a asp-controller="Workoutdays" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="WorkoutDays" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Workoutdays" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

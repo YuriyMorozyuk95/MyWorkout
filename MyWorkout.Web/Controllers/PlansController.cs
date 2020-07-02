@@ -8,6 +8,8 @@ using EF = Microsoft.EntityFrameworkCore;
 namespace MyWorkout.Web.Controllers
 {
     using Data.Repositories;
+    using System.Collections.Generic;
+
     public class PlansController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -35,7 +37,8 @@ namespace MyWorkout.Web.Controllers
             }
 
             var plans = await _unitOfWork.PlanRepository
-                .Read(id.Value);
+               .Read(id.Value);
+            _unitOfWork.Load(plans, e => (IEnumerable<WorkoutDay>)e.WorkoutDays);
 
             if (plans == null)
             {
@@ -150,7 +153,6 @@ namespace MyWorkout.Web.Controllers
         private  Task<bool> PlanExists(int id)
         {
             return _unitOfWork.PlanRepository.IsExist(e => e.Id == id);
-            //return _context.Plans.Any(e => e.Id == id);
         }
     }
 }

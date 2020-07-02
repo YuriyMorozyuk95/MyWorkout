@@ -8,6 +8,7 @@ using EF = Microsoft.EntityFrameworkCore;
 namespace MyWorkout.Web.Controllers
 {
     using Data.Repositories;
+    using System;
 
     public class WorkoutDaysController : Controller
     {
@@ -16,6 +17,23 @@ namespace MyWorkout.Web.Controllers
         public WorkoutDaysController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+
+        // GET: Repeats/CreateFromExercise/328
+        public IActionResult CreateFromPlan(int? Id)
+        {
+            if (Id == default(int))
+            {
+                throw new ArgumentNullException("plan id is not set");
+            }
+
+            var repeat = new WorkoutDay()
+            {
+                PlanId = Id.Value
+            };
+
+            return View(nameof(Create), repeat);
         }
 
         // GET: WorkoutDays
@@ -58,7 +76,7 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DayOfWeek,MuscleGroup")] WorkoutDay workoutDay)
+        public async Task<IActionResult> Create([Bind("Id,DayOfWeek,MuscleGroup,PlanId")] WorkoutDay workoutDay)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +111,7 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DayOfWeek,MuscleGroup")] WorkoutDay workoutDay)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DayOfWeek,MuscleGroup, PlanId")] WorkoutDay workoutDay)
         {
             if (id != workoutDay.Id)
             {
