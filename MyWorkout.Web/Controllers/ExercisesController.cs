@@ -22,6 +22,23 @@ namespace MyWorkout.Web.Controllers
         }
 
         // GET: Exercises
+        //Exersices/CreateFromDayOfWeek/1
+
+        public IActionResult CreateFromDayOfWeek(int? id)
+        {
+            if (id == default(int))
+            {
+                throw new ArgumentNullException(" Day of week id is not set");
+            }
+
+            var exercise = new Exercise()
+            {
+                WorkoutDayId = id.Value
+            };
+
+            return View(nameof(Create), exercise);
+        }
+
         public async Task<IActionResult> Index()
         {
             var data = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
@@ -60,7 +77,8 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,RestTime")] Exercise exercise)
+        
+        public async Task<IActionResult> Create([Bind("Id,Name,RestTime,WorkoutDayId")] Exercise exercise)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +116,9 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,RestTime")] Exercise exercise)
+
+
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,RestTime,WorkoutDayId")] Exercise exercise)
         {
             if (id != exercise.Id)
             {
