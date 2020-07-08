@@ -15,8 +15,8 @@ namespace MyWorkout.Web.Data.Entity
 
         public WorkoutDay WorkoutDay { get; set; }
         public int WorkoutDayId { get; set; }
-        
 
-
+  
+        }
     }
-}
+

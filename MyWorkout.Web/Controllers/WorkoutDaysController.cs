@@ -9,6 +9,7 @@ namespace MyWorkout.Web.Controllers
 {
     using Data.Repositories;
     using System;
+    using System.Collections.Generic;
 
     public class WorkoutDaysController : Controller
     {
@@ -56,6 +57,7 @@ namespace MyWorkout.Web.Controllers
 
             var workoutDay = await _unitOfWork.WorkoutDayRepository
                 .Read(id.Value);
+            _unitOfWork.Load(workoutDay, w => (IEnumerable<Exercise>)w.Exercises);
 
             if (workoutDay == null)
             {
