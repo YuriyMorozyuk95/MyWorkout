@@ -28,7 +28,7 @@ namespace MyWorkout.Web.Controllers
         {
             if (id == default(int))
             {
-                throw new ArgumentNullException(" Day of week id is not set");
+                throw new ArgumentNullException("Day of week id is not set");
             }
 
             var exercise = new Exercise()
