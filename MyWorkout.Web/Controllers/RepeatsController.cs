@@ -89,7 +89,7 @@ namespace MyWorkout.Web.Controllers
                 await _unitOfWork.RepeatRepository.Create(repeat);
                 await _unitOfWork.Save();
 
-                return RedirectToAction("Exercises","Details",repeat);
+                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", repeat.ExerciseId);
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
@@ -145,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                     throw;
                 }
-                return RedirectToAction("Exercises","Details",repeat);
+                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", repeat.ExerciseId);
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
@@ -180,7 +180,7 @@ namespace MyWorkout.Web.Controllers
             await _unitOfWork.RepeatRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction("Exercises","Details",id);
+            return RedirectToAction(nameof(ExercisesController.Details), "Exercises",id);
         }
 
         private Task<bool> RepeatExists(int id)

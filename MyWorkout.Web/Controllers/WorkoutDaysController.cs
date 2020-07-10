@@ -85,7 +85,7 @@ namespace MyWorkout.Web.Controllers
                 await _unitOfWork.WorkoutDayRepository.Create(workoutDay);
                 await _unitOfWork.Save();
 
-                return RedirectToAction("Plans","Details",workoutDay);
+                return RedirectToAction(nameof(PlansController.Details), "Plans", workoutDay.PlanId);
             }
             return View(workoutDay);
         }
@@ -136,7 +136,7 @@ namespace MyWorkout.Web.Controllers
 
                     throw;
                 }
-                return RedirectToAction("Plans","Details",workoutDay.Id);
+                return RedirectToAction(nameof(PlansController.Details), "Plans",workoutDay.PlanId); 
             }
             return View(workoutDay);
         }
@@ -168,7 +168,7 @@ namespace MyWorkout.Web.Controllers
             await _unitOfWork.WorkoutDayRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction("Plans","Details",id);
+            return RedirectToAction(nameof(PlansController.Details), "Plans", id);
         }
 
         private Task<bool> WorkoutDayExists(int id)
