@@ -88,7 +88,7 @@ namespace MyWorkout.Web.Controllers
 
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { ID = exercise.WorkoutDayId });
+            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = exercise.WorkoutDayId });
         }
 
         // GET: Exercises/Edit/5
@@ -145,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                 throw;
             }
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { ID = exercise.WorkoutDayId });
+            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = exercise.WorkoutDayId });
         }
 
         // GET: Exercises/Delete/5
@@ -171,12 +171,12 @@ namespace MyWorkout.Web.Controllers
         // POST: Exercises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, int workoutdayId)
+        public async Task<IActionResult> DeleteConfirmed(int id, int workoutDayId)
         {
             await _unitOfWork.ExerciseRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = workoutdayId });
+            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = workoutDayId });
         }
 
         private Task<bool> ExerciseExists(int id)

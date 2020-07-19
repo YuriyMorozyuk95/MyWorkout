@@ -89,7 +89,7 @@ namespace MyWorkout.Web.Controllers
                 await _unitOfWork.RepeatRepository.Create(repeat);
                 await _unitOfWork.Save();
 
-                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", new {ID =repeat.ExerciseId});
+                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", new {Id =repeat.ExerciseId});
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
@@ -145,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                     throw;
                 }
-                return RedirectToAction(nameof(ExercisesController.Details),"Exercises", new {ID =repeat.ExerciseId});
+                return RedirectToAction(nameof(ExercisesController.Details),"Exercises", new {Id =repeat.ExerciseId});
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
