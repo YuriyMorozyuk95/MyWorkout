@@ -54,7 +54,7 @@ namespace MyWorkout.Web.Controllers
 
             var exercise = await _unitOfWork.ExerciseRepository
                 .Read(id.Value);
-            _unitOfWork.Load(exercise, e => (IEnumerable<Exercise>)e.Repeats);
+            _unitOfWork.Load(exercise, e => (IEnumerable<Repeat>)e.Repeats);
 
             if (exercise == null)
             {
