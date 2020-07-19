@@ -44,9 +44,9 @@
                     @Html.DisplayFor(modelItem => item.MuscleGroup)
                 </td>
                 <td>
-                    <a asp-controller="Workoutdays" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="WorkoutDays" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-controller="WorkoutDays" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Workoutdays" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-controller="WorkoutDays" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
             }
@@ -56,5 +56,5 @@
     </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"> Back to List</a>
 </div>

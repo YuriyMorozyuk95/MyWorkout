@@ -113,6 +113,18 @@ namespace MyWorkout.Web
                 endpoints.MapControllerRoute(
                     name: "exerciseToRepeat",
                     pattern: "{controller=Home}/{action=Index}/{exerciseId?}/{number?}");
+// new route
+                endpoints.MapControllerRoute(
+                    name: "exerciseToRepeat",
+                    pattern: "{controller=Home}/{action=Index}/{Id?}/{workoutDayId?}");
+
+                endpoints.MapControllerRoute(
+                    name: "exerciseToRepeat",
+                    pattern: "{controller=Home}/{action=Index}/{Id?}/{planId?}");
+
+                endpoints.MapControllerRoute(
+                    name: "exerciseToRepeat",
+                    pattern: "{controller=Home}/{action=Index}/{Id?}/{exercisesId?}");
 
                 endpoints.MapRazorPages();
             });

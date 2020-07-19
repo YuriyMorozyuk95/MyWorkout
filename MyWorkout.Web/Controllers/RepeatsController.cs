@@ -89,7 +89,7 @@ namespace MyWorkout.Web.Controllers
                 await _unitOfWork.RepeatRepository.Create(repeat);
                 await _unitOfWork.Save();
 
-                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", repeat.ExerciseId);
+                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", new {ID =repeat.ExerciseId});
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
@@ -145,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                     throw;
                 }
-                return RedirectToAction(nameof(ExercisesController.Details), "Exercises", repeat.ExerciseId);
+                return RedirectToAction(nameof(ExercisesController.Details),"Exercises", new {ID =repeat.ExerciseId});
             }
             var exercises = await _unitOfWork.ExerciseRepository.ReadAll().ToListAsync();
             ViewData["ExerciseId"] = new SelectList(exercises, "Id", "Id", repeat.ExerciseId);
@@ -175,15 +175,15 @@ namespace MyWorkout.Web.Controllers
         // POST: Repeats/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int exerciseId)
         {
             await _unitOfWork.RepeatRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "Exercises",id);
+            return RedirectToAction(nameof(ExercisesController.Details),"Exercises", new { Id = exerciseId});
         }
 
-        private Task<bool> RepeatExists(int id)
+        private Task<bool>RepeatExists(int id)
         {
             return _unitOfWork.RepeatRepository.IsExist(e => e.Id == id);
         }
