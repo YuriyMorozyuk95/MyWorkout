@@ -88,7 +88,7 @@ namespace MyWorkout.Web.Controllers
 
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = exercise.WorkoutDayId });
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Exercises/Edit/5
@@ -145,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                 throw;
             }
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = exercise.WorkoutDayId });
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Exercises/Delete/5
@@ -176,7 +176,7 @@ namespace MyWorkout.Web.Controllers
             await _unitOfWork.ExerciseRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", new { Id = workoutDayId });
+            return RedirectToAction(nameof(Index));
         }
 
         private Task<bool> ExerciseExists(int id)
