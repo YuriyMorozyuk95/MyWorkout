@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MyWorkout.Web.Data;
 using MyWorkout.Web.Data.Entity;
 
 namespace MyWorkout.Web.Controllers
@@ -77,7 +75,7 @@ namespace MyWorkout.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+
         public async Task<IActionResult> Create([Bind("Id,Name,RestTime,WorkoutDayId")] Exercise exercise)
         {
             if (!ModelState.IsValid)
@@ -90,7 +88,7 @@ namespace MyWorkout.Web.Controllers
 
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details),"WorkoutDays",exercise.WorkoutDayId);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Exercises/Edit/5
@@ -147,7 +145,7 @@ namespace MyWorkout.Web.Controllers
 
                 throw;
             }
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays", exercise.WorkoutDayId);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Exercises/Delete/5
@@ -161,6 +159,7 @@ namespace MyWorkout.Web.Controllers
             var exercise = await _unitOfWork.ExerciseRepository
                 .Read(id.Value);
 
+
             if (exercise == null)
             {
                 return NotFound();
@@ -172,12 +171,12 @@ namespace MyWorkout.Web.Controllers
         // POST: Exercises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int workoutDayId)
         {
             await _unitOfWork.ExerciseRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return RedirectToAction(nameof(ExercisesController.Details), "WorkoutDays",id);
+            return RedirectToAction(nameof(Index));
         }
 
         private Task<bool> ExerciseExists(int id)

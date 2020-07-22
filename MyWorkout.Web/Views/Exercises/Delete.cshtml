@@ -28,7 +28,8 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="WorkoutDayId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="WorkoutDays" asp-action="Details"asp-route-id="@Model.WorkoutDayId">Back to List</a>
     </form>
 </div>
