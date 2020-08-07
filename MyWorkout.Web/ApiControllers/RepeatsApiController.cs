@@ -96,15 +96,12 @@ namespace MyWorkout.Web.ApiControllers
         public async Task<ActionResult<Repeat>> DeleteRepeat(int id)
         {
             var repeat = await _unitOfWork.RepeatRepository.Read(id);
-            if (repeat == null)
-            {
-                return NotFound();
-            }
+            await RepeatExists(id);
 
             await _unitOfWork.RepeatRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return repeat;
+            return NoContent();
         }
 
         private Task<bool> RepeatExists(int id)

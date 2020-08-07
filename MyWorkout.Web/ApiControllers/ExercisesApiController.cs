@@ -29,7 +29,7 @@ namespace MyWorkout.Web.ApiControllers
             var exercise = await _unitOfWork.ExerciseRepository
                 .ReadAll()
                 .ToListAsync();
-            exercise.ForEach(x => _unitOfWork.Load(x, x => (IEnumerable<Exercise>)x.Repeats));
+            exercise.ForEach(x => _unitOfWork.Load(x, x => (IEnumerable<Repeat>)x.Repeats));
 
             return exercise;
         }
@@ -97,10 +97,7 @@ namespace MyWorkout.Web.ApiControllers
         public async Task<ActionResult<Exercise>> DeleteExercise(int id)
         {
             var exercise = await _unitOfWork.ExerciseRepository.Read(id);
-            if (exercise == null)
-            {
-                return NotFound();
-            }
+            await ExerciseExists(id);
 
             await _unitOfWork.ExerciseRepository.Delete(id);
             await _unitOfWork.Save();

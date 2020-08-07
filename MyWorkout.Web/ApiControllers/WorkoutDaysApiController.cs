@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using MyWorkout.Web.Data.Entity;
 using MyWorkout.Web.Data.Repositories;
 
@@ -91,18 +92,16 @@ namespace MyWorkout.Web.ApiControllers
 
         // DELETE: api/WorkoutDaysApi/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<WorkoutDay>> DeleteWorkoutDay(int id)
+       public async Task<ActionResult<WorkoutDay>> DeleteWorkoutDay(int id)
         {
-            var workoutDay = await _unitOfWork.WorkoutDayRepository.Read(id);
-            if (workoutDay == null)
-            {
-                return NotFound();
-            }
-
+           var workoutDay = await _unitOfWork.WorkoutDayRepository.Read(id);
+            await WorkoutDayExists(id);
+          
+           
             await _unitOfWork.WorkoutDayRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return workoutDay;
+            return NoContent();
         }
 
         private Task <bool> WorkoutDayExists(int id)

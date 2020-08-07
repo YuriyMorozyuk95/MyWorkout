@@ -29,7 +29,7 @@ namespace MyWorkout.Web.ApiControllers
             var plan = await _unitOfWork.PlanRepository
                .ReadAll()
                .ToListAsync();
-            plan.ForEach(x => _unitOfWork.Load(x, x => (IEnumerable<Plan>)x.WorkoutDays));
+            plan.ForEach(x => _unitOfWork.Load(x, x => (IEnumerable<WorkoutDay>)x.WorkoutDays));
 
             return plan;
         }
@@ -97,15 +97,12 @@ namespace MyWorkout.Web.ApiControllers
         public async Task<ActionResult<Plan>> DeletePlan(int id)
         {
             var plan = await _unitOfWork.PlanRepository.Read(id);
-            if (plan  == null)
-            {
-                return NotFound();
-            }
+            await PlanExists(id);
 
             await _unitOfWork.PlanRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return plan;
+            return NoContent();
         }
 
         private Task <bool> PlanExists(int id)
