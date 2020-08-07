@@ -20,6 +20,11 @@ namespace MyWorkout.Web.Data
         public DbSet<WorkoutDay> WorkoutDays { get; set; }
         public DbSet<Plan> Plans { get; set; }
 
+        public DbSet<PlanDetails> PlanDetails { get; set; }
+        public DbSet<WorkoutDayDetails> WorkoutDayDetails { get; set; }
+        public DbSet<ExerciseDetails> ExerciseDetails { get; set; }
+        public DbSet<RepeatDetails> RepeatDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var testPlan = new Plan

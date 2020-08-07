@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MyWorkout.Web.Data;
 using MyWorkout.Web.Data.Entity;
 
 namespace MyWorkout.Web.Controllers
@@ -63,9 +61,9 @@ namespace MyWorkout.Web.Controllers
         // GET: Repeats/CreateFromExercise/328
         public IActionResult CreateFromExercise(int? exerciseId, int number)
         {
-            if(exerciseId == default(int))
+            if(exerciseId == default(int) && exerciseId == null)
             {  
-                throw new ArgumentNullException("excersise id is not set");
+                throw new ArgumentNullException(nameof(exerciseId));
             }
 
             var repeat = new Repeat()

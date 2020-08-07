@@ -14,6 +14,12 @@ namespace MyWorkout.Web.Data.Repositories
         IGenericRepository<Repeat> RepeatRepository { get; }
         IGenericRepository<WorkoutDay> WorkoutDayRepository { get; }
         IGenericRepository<Plan> PlanRepository { get; }
+
+        IGenericRepository<PlanDetails> PlanDetailsRepository { get; }
+        IGenericRepository<WorkoutDayDetails> WorkoutDayDetailsRepository { get; }
+        IGenericRepository<ExerciseDetails> ExerciseDetailsRepository { get; }
+        IGenericRepository<RepeatDetails> RepeatDetailsRepository { get; }
+
         Task<int> Save();
         void Rollback();
 
@@ -32,7 +38,11 @@ namespace MyWorkout.Web.Data.Repositories
         private readonly Lazy<IGenericRepository<Repeat>> _repeatRepository;
         private readonly Lazy<IGenericRepository<WorkoutDay>> _workoutDayRepository;
         private readonly Lazy<IGenericRepository<Plan>> _planRepository;
-       
+        private readonly Lazy<IGenericRepository<PlanDetails>> _planDetailsRepository;
+        private readonly Lazy<IGenericRepository<WorkoutDayDetails>> _workoutDayDetailsRepository;
+        private readonly Lazy<IGenericRepository<ExerciseDetails>> _exerciseDetailsRepository;
+        private readonly Lazy<IGenericRepository<RepeatDetails>> _repeatDetailsRepository;
+                
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -47,17 +57,33 @@ namespace MyWorkout.Web.Data.Repositories
 
             _workoutDayRepository = new Lazy<IGenericRepository<WorkoutDay>>(
                 () => new GenericRepository<WorkoutDay>(_context.WorkoutDays));
-
+            
             _planRepository = new Lazy<IGenericRepository<Plan>>(
                 () => new GenericRepository<Plan>(_context.Plans));
-            
+
+            _planDetailsRepository = new Lazy<IGenericRepository<PlanDetails>>(
+                () => new GenericRepository<PlanDetails>(_context.PlanDetails));
+
+            _workoutDayDetailsRepository = new Lazy<IGenericRepository<WorkoutDayDetails>>(
+                () => new GenericRepository<WorkoutDayDetails>(_context.WorkoutDayDetails));
+
+            _exerciseDetailsRepository = new Lazy<IGenericRepository<ExerciseDetails>>(
+                () => new GenericRepository<ExerciseDetails>(_context.ExerciseDetails));
+
+            _repeatDetailsRepository = new Lazy<IGenericRepository<RepeatDetails>>(
+                () => new GenericRepository<RepeatDetails>(_context.RepeatDetails));
         }
 
         public IGenericRepository<Exercise> ExerciseRepository => _exerciseRepository.Value;
         public IGenericRepository<Repeat> RepeatRepository => _repeatRepository.Value;
         public IGenericRepository<WorkoutDay> WorkoutDayRepository => _workoutDayRepository.Value;
         public IGenericRepository<Plan> PlanRepository => _planRepository.Value;
-       
+
+        public IGenericRepository<PlanDetails> PlanDetailsRepository => _planDetailsRepository.Value;
+        public IGenericRepository<WorkoutDayDetails> WorkoutDayDetailsRepository => _workoutDayDetailsRepository.Value;
+        public IGenericRepository<ExerciseDetails> ExerciseDetailsRepository => _exerciseDetailsRepository.Value;
+        public IGenericRepository<RepeatDetails> RepeatDetailsRepository => _repeatDetailsRepository.Value;
+
 
         public async Task<int> Save() => await _context.SaveChangesAsync();
 

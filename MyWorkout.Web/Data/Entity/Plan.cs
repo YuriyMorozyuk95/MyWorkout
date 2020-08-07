@@ -10,5 +10,7 @@ namespace MyWorkout.Web.Data.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public List <WorkoutDay> WorkoutDays { get; set; }
+
+        //TODO add plan details many or one
     }
 }

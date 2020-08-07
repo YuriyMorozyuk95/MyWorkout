@@ -10,13 +10,10 @@ namespace MyWorkout.Web.Data.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public TimeSpan RestTime { get; set; }
-
         public List<Repeat> Repeats { get; set; }
-
         public WorkoutDay WorkoutDay { get; set; }
-        public int WorkoutDayId { get; set; }
 
-  
-        }
+        public int WorkoutDayId { get; set; }
     }
+}
 
