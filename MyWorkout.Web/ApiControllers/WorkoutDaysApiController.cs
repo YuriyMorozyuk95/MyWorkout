@@ -37,15 +37,17 @@ namespace MyWorkout.Web.ApiControllers
         public async Task<ActionResult<WorkoutDay>> GetWorkoutDay(int id)
         {
             var workoutDay = await _unitOfWork.WorkoutDayRepository.Read(id);
-            _unitOfWork.Load(workoutDay, x => (IEnumerable<Exercise>)x.Exercises);
+
 
             if (workoutDay == null)
             {
                 return NotFound();
             }
+            _unitOfWork.Load(workoutDay, x => (IEnumerable<Exercise>)x.Exercises);
 
             return workoutDay;
-        }
+            }
+        
         //Edit
         // PUT: api/WorkoutDaysApi/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -94,10 +96,11 @@ namespace MyWorkout.Web.ApiControllers
         [HttpDelete("{id}")]
        public async Task<ActionResult<WorkoutDay>> DeleteWorkoutDay(int id)
         {
-           var workoutDay = await _unitOfWork.WorkoutDayRepository.Read(id);
-            await WorkoutDayExists(id);
-          
-           
+            if(!await WorkoutDayExists(id))
+            {
+                return NotFound();
+            }
+             
             await _unitOfWork.WorkoutDayRepository.Delete(id);
             await _unitOfWork.Save();
 

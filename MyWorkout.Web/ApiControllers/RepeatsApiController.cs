@@ -95,8 +95,10 @@ namespace MyWorkout.Web.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Repeat>> DeleteRepeat(int id)
         {
-            var repeat = await _unitOfWork.RepeatRepository.Read(id);
-            await RepeatExists(id);
+            if (!await RepeatExists(id))
+            {
+                return NotFound();
+            }
 
             await _unitOfWork.RepeatRepository.Delete(id);
             await _unitOfWork.Save();

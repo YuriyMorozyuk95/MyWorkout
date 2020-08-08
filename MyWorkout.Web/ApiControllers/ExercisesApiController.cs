@@ -96,13 +96,15 @@ namespace MyWorkout.Web.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Exercise>> DeleteExercise(int id)
         {
-            var exercise = await _unitOfWork.ExerciseRepository.Read(id);
-            await ExerciseExists(id);
+            if (!await ExerciseExists(id))
+            {
+                return NotFound();
+            }
 
             await _unitOfWork.ExerciseRepository.Delete(id);
             await _unitOfWork.Save();
 
-            return exercise;
+            return NoContent();
         }
 
         private Task <bool> ExerciseExists(int id)

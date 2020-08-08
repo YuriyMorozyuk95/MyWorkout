@@ -39,12 +39,12 @@ namespace MyWorkout.Web.ApiControllers
         public async Task<ActionResult<Plan>> GetPlan(int id)
         {
             var plan = await _unitOfWork.PlanRepository.Read(id);
-            _unitOfWork.Load(plan, x => (IEnumerable<Exercise>)x.WorkoutDays);
 
             if (plan == null)
             {
                 return NotFound();
             }
+            _unitOfWork.Load(plan, x => (IEnumerable<WorkoutDay>)x.WorkoutDays);
 
             return plan;
         }
@@ -96,8 +96,10 @@ namespace MyWorkout.Web.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Plan>> DeletePlan(int id)
         {
-            var plan = await _unitOfWork.PlanRepository.Read(id);
-            await PlanExists(id);
+           if(await PlanExists(id)) // vot tut on rabotaet s vosklicatelnim znakom  esli budet pervaya strochka, a esli eye net to tak xocet ;
+           {
+                return NotFound(); 
+           }
 
             await _unitOfWork.PlanRepository.Delete(id);
             await _unitOfWork.Save();
@@ -107,7 +109,7 @@ namespace MyWorkout.Web.ApiControllers
 
         private Task <bool> PlanExists(int id)
         {
-            return _unitOfWork.RepeatRepository.IsExist(e => e.Id == id); ;
+            return _unitOfWork.RepeatRepository.IsExist(e => e.Id == id); 
         }
     }
 }
